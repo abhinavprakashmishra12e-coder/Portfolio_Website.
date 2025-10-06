@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Abhinav Prakash Mishra | Portfolio</title>
+
+  <!-- Inter font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg-1:#0f0c29;
+      --bg-2:#302b63;
+      --accent:#7c3aed;
+      --accent-2:#3b82f6;
+      --muted: #bfc7d6;
+      --glass: rgba(255,255,255,0.04);
+      --glass-2: rgba(255,255,255,0.02);
+      --card-shadow: 0 8px 30px rgba(2,6,23,0.6);
+      --radius:14px;
+    }
+
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+      color:#e6eef8;
+      background: linear-gradient(135deg,var(--bg-1) 0%, var(--bg-2) 60%, #24243e 100%);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:32px;
+    }
+
+    .wrap{
+      width:100%;
+      max-width:960px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:var(--radius);
+      box-shadow: var(--card-shadow);
+      padding:28px;
+      -webkit-backdrop-filter: blur(8px) saturate(120%);
+      backdrop-filter: blur(8px) saturate(120%);
+      border: 1px solid rgba(255,255,255,0.04);
+    }
+
+    /* utility classes to avoid inline styles flagged by linters */
+    .flush { margin-top: 0 !important; }
+    .mt-12 { margin-top: 12px !important; }
+    .mb-10 { margin-bottom: 10px !important; }
+    .m-zero { margin: 0 !important; }
+    .mb-6 { margin-bottom: 6px !important; }
+    .accent-bold { color: var(--accent); font-weight:700; }
+    .form-message { margin-top: 8px; color: #b8d1ff; }
+
+    header{
+      display:flex;
+      gap:20px;
+      align-items:center;
+      margin-bottom:20px;
+      flex-wrap:wrap;
+    }
+
+    .profile{
+      width:120px;
+      height:120px;
+      border-radius:999px;
+      overflow:hidden;
+      flex:0 0 120px;
+      display:grid;
+      place-items:center;
+      background: radial-gradient(circle at 30% 20%, rgba(124,58,237,0.16), transparent 25%), linear-gradient(135deg, rgba(59,130,246,0.06), rgba(124,58,237,0.04));
+      box-shadow: 0 6px 18px rgba(124,58,237,0.08), 0 2px 6px rgba(59,130,246,0.04);
+      transition: transform .6s cubic-bezier(.2,.9,.3,1), box-shadow .3s;
+      border: 2px solid rgba(124,58,237,0.08);
+    }
+    .profile img{width:100%;height:100%;object-fit:cover;display:block}
+    .profile:focus, .profile:hover{transform:translateY(-6px) scale(1.02); box-shadow: 0 18px 40px rgba(124,58,237,0.14);}
+
+    .title{flex:1;min-width:0}
+    h1{margin:0 0 6px 0;font-size:1.6rem;line-height:1.05;color:var(--accent);text-shadow:0 0 10px rgba(124,58,237,0.18), 0 0 20px rgba(59,130,246,0.06);letter-spacing:-0.2px}
+    h2{margin:0;color:var(--muted);font-weight:600;font-size:1rem}
+    .sub{color:#9fb0d4;margin-top:8px;font-size:0.95rem}
+
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    @media (max-width:720px){.grid{grid-template-columns:1fr} header{justify-content:center;text-align:center}.title{text-align:center}}
+
+    .card{
+      background: linear-gradient(180deg,var(--glass), var(--glass-2));
+      border-radius:12px;padding:16px;border:1px solid rgba(255,255,255,0.03);
+      transition:box-shadow .25s, transform .25s;
+    }
+    .card:hover{transform:translateY(-6px);box-shadow:0 12px 36px rgba(2,6,23,0.45)}
+
+    .neon{color:var(--accent);font-weight:700;text-shadow:0 0 8px rgba(124,58,237,0.18), 0 0 18px rgba(59,130,246,0.06)}
+    .muted{color:#b8c6db}
+
+    .skills{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+
+    /* 3D flashcard skill tiles */
+    .skill{
+      -webkit-perspective: 1000px;
+      perspective: 1000px;
+      cursor: pointer;
+      width:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .skill-inner{
+      width:100%;
+      padding:12px;
+      border-radius:10px;
+      background: rgba(255,255,255,0.02);
+      border:1px solid rgba(124,58,237,0.04);
+      color:#cfe2ff;
+      font-weight:700;
+      min-height:48px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      -webkit-transform-style: preserve-3d;
+      transform-style: preserve-3d;
+      transition: transform 520ms cubic-bezier(.2,.9,.3,1), box-shadow .25s;
+      box-shadow: none;
+    }
+
+    .skill-front, .skill-back{
+      position:relative;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      width:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .skill-back{
+      position:absolute;
+      inset:0;
+      transform: rotateY(180deg);
+      padding:12px;
+      border-radius:10px;
+      background: linear-gradient(90deg, rgba(124,58,237,0.06), rgba(59,130,246,0.04));
+      color:#eaf4ff;
+      font-weight:600;
+      text-align:center;
+      box-sizing:border-box;
+    }
+
+    /* float/idle micro animation on the outer card (separate from flip) */
+    @keyframes floaty { 0%{transform:translateY(0)}50%{transform:translateY(-4px)}100%{transform:translateY(0)} }
+    .skill:not(.flipped) .skill-inner { animation: floaty 6s ease-in-out infinite; }
+
+    /* flipped state */
+    .skill.flipped .skill-inner{ transform: rotateY(180deg); box-shadow: 0 18px 36px rgba(2,6,23,0.5); }
+
+    .skill:focus .skill-inner, .skill:hover .skill-inner{ transform: translateY(-6px); box-shadow: 0 12px 30px rgba(59,130,246,0.12); }
+    .skill:active .skill-inner{ transform: translateY(-2px) scale(.995); }
+
+    .skill:focus { outline: none; }
+    .skill:focus-visible .skill-inner { box-shadow: 0 0 0 4px rgba(59,130,246,0.12); }
+
+    @media (prefers-reduced-motion:reduce){
+      .skill .skill-inner { animation: none !important; transition: none !important; }
+    }
+
+    form{display:flex;flex-direction:column;gap:10px}
+    input,textarea{background:rgba(255,255,255,0.02);color:inherit;border:1px solid rgba(255,255,255,0.04);padding:10px 12px;border-radius:10px;outline:none}
+    input:focus,textarea:focus{box-shadow:0 6px 18px rgba(59,130,246,0.08);border-color:rgba(59,130,246,0.18)}
+    button{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#fff;border:none;padding:12px;border-radius:10px;font-weight:700;cursor:pointer}
+
+    .about-content{opacity:0;transform:translateY(6px) scale(.995);transition:opacity .6s ease, transform .6s ease}
+    .about-content.visible{opacity:1;transform:none}
+
+    footer{color:#9fb0d4;font-size:0.9rem;text-align:center;margin-top:12px}
+    @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header>
+      <div class="profile" tabindex="0" id="profileWrap" aria-label="Profile avatar">
+        <!-- Replace with your image at assets/profile.jpg -->
+        <img loading="lazy" decoding="async" src='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="480" height="480"><defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="%237c3aed"/><stop offset="1" stop-color="%233b82f6"/></linearGradient></defs><rect width="100%" height="100%" rx="240" fill="url(%23g)"/><text x="50%" y="55%" font-size="140" font-family="Inter,Arial" fill="white" text-anchor="middle" alignment-baseline="middle">AP</text></svg>' alt="Profile placeholder (replace with your photo)" />
+      </div>
+
+      <div class="title">
+        <h1 class="neon">Abhinav Prakash Mishra</h1>
+        <h2>Full Stack Developer</h2>
+  <div class="sub">Currently a student at <span class="accent-bold">GKV</span> — building reliable web applications.</div>
+      </div>
+    </header>
+
+    <section class="grid" aria-label="main content">
+      <div>
+        <div class="card">
+          <h3 class="neon flush">About</h3>
+          <p id="aboutText" class="about-content muted">Hi — I'm Abhinav. I enjoy building scalable web apps and crafting pleasant user experiences. I work across frontend and backend (React, Node.js, Express, MongoDB). Focused on clean code, performance and accessibility.</p>
+      </div>
+  <div class="card mt-12">
+          <h3 class="neon flush">Skills</h3>
+          <div class="skills" aria-hidden="false">
+            <div class="skill" role="button" tabindex="0">JavaScript</div>
+            <div class="skill" role="button" tabindex="0">React</div>
+            <div class="skill" role="button" tabindex="0">Node.js</div>
+            <div class="skill" role="button" tabindex="0">Express</div>
+            <div class="skill" role="button" tabindex="0">MongoDB</div>
+            <div class="skill" role="button" tabindex="0">Tailwind / CSS</div>
+            <div class="skill" role="button" tabindex="0">HTML</div>
+            <div class="skill" role="button" tabindex="0">Git</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="card">
+          <h3 class="neon flush">Projects</h3>
+          <div class="mb-10">
+            <h4 class="muted m-zero mb-6">Portfolio Website</h4>
+            <p class="muted m-zero">Personal site demonstrating projects, built with modern responsive CSS and JS.</p>
+          </div>
+          <div>
+            <h4 class="muted m-zero mb-6">Task Manager App</h4>
+            <p class="muted m-zero">Full-stack task app using React, Node and MongoDB — auth, CRUD, real-time updates.</p>
+          </div>
+        </div>
+
+        <div class="card mt-12">
+          <h3 class="neon flush">Contact</h3>
+          <form id="contactForm" novalidate>
+            <input type="text" name="name" placeholder="Your name" required aria-label="Your name" />
+            <input type="email" name="email" placeholder="Your email" required aria-label="Your email" />
+            <textarea name="message" rows="4" placeholder="Message" required aria-label="Message"></textarea>
+            <button type="submit">Send message</button>
+            <div id="formMessage" role="status" aria-live="polite" class="form-message"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <footer>&copy; 2025 Abhinav Prakash Mishra</footer>
+  </main>
+
+  <script>
+    // --- Safe DOM helpers ---
+    const $ = (id) => document.getElementById(id);
+
+    // Contact form: basic validation and safe binding
+    (function(){
+      const form = $('contactForm');
+      const msg = $('formMessage');
+      if (!form) return;
+
+      const isEmail = (v) => /\S+@\S+\.\S+/.test(v);
+
+      form.addEventListener('submit', function(e){
+        e.preventDefault();
+        const f = new FormData(form);
+        const name = (f.get('name') || '').toString().trim();
+        const email = (f.get('email') || '').toString().trim();
+        const message = (f.get('message') || '').toString().trim();
+
+        if (!name || !email || !message) {
+          if (msg) msg.textContent = 'Please fill in all fields.';
+          return;
+        }
+        if (!isEmail(email)) {
+          if (msg) msg.textContent = 'Please enter a valid email address.';
+          return;
+        }
+
+        // Demo-only: show success and reset. Replace with real submission when ready.
+        if (msg) msg.textContent = 'Thank you — message received.';
+        form.reset();
+      });
+    })();
+
+    // Reveal about text when visible (IntersectionObserver)
+    (function(){
+      const about = $('aboutText');
+      if (!about) return;
+
+      const reveal = () => about.classList.add('visible');
+
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver((entries, obs) => {
+          entries.forEach(en => {
+            if (en.isIntersecting) {
+              reveal();
+              obs.disconnect();
+            }
+          });
+        }, {threshold:0.14});
+        io.observe(about);
+      } else {
+        // fallback
+        reveal();
+      }
+    })();
+
+    // Subtle tilt on profile, only for pointer devices (avoid mobile/touch)
+    (function(){
+      const p = $('profileWrap') || document.querySelector('.profile');
+      if (!p) return;
+      // only attach mousemove for fine pointers
+      if (window.matchMedia && !window.matchMedia('(pointer: fine)').matches) return;
+
+      const onMove = (ev) => {
+        const r = p.getBoundingClientRect();
+        const dx = (ev.clientX - (r.left + r.width/2)) / r.width;
+        const dy = (ev.clientY - (r.top + r.height/2)) / r.height;
+        const rx = Math.max(Math.min(-dy * 6, 8), -8);
+        const ry = Math.max(Math.min(dx * 8, 10), -10);
+        p.style.transform = `perspective(600px) rotateX(${rx}deg) rotateY(${ry}deg) translateZ(6px)`;
+      };
+
+      p.addEventListener('mousemove', onMove);
+      p.addEventListener('mouseleave', ()=> p.style.transform = '');
+      // restore transform on focus/blur for keyboard accessibility
+      p.addEventListener('blur', ()=> p.style.transform = '');
+    })();
+  </script>
+</body>
+</html>
